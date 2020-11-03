@@ -22,6 +22,6 @@ func GetGossipsHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/gossips", GetGossipsHandler)
-	//http.ListenAndServe(":5000", nil)
-	http.ListenAndServeTLS(":443", "server.crt", "server.key", nil)
+	http.ListenAndServe(":5000", nil)
+	//http.ListenAndServeTLS(":443", "server.crt", "server.key", nil)
 }
