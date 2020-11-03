@@ -74,3 +74,4 @@ jobs:
         name: pliuwhisper
         ports: 5000
         location: "southcentralus"
+        environment-variables: 'MYSELF'=${{ secrets.ENV_MYSELF }} 'FORWARDURL'=${{ secrets.ENV_FORWARDURL }}
