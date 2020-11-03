@@ -45,3 +45,7 @@ properties:
   osType: Linux
 tags: null
 type: Microsoft.ContainerInstance/containerGroups
+imageRegistryCredentials:
+  - server: __REGISTRY_LOGIN_SERVER__
+    username: __REGISTRY_USERNAME__
+    password: __REGISTRY_PASSWORD__
