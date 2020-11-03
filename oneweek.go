@@ -50,5 +50,5 @@ func main() {
 	r.HandleFunc("/gossips", GetGossipsHandler).Methods("GET")
 	r.HandleFunc("/whisper", ReceiveGossipHandler).Methods("POST")
 	http.ListenAndServe(":5000", r)
-	//http.ListenAndServeTLS(":443", "server.crt", "server.key", nil)
+	////http.ListenAndServeTLS(":443", "server.crt", "server.key", nil)
 }
