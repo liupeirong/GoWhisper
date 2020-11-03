@@ -107,7 +107,7 @@ jobs:
           else
             echo "no existing aci"
           fi
-          az container create --resource-group ${{ secrets.RESOURCE_GROUP }} --file deploy-aci.yaml
+          az container create --resource-group ${{ secrets.RESOURCE_GROUP }} --file deploy-aci.yml
 
 
     # - name: 'Deploy to Azure Container Instances'
