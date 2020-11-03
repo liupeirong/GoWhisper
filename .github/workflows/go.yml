@@ -54,7 +54,49 @@ jobs:
         docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/pliuwhisper:${{ github.sha }}
         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/pliuwhisper:${{ github.sha }}
 
-    - name: Delete existing Azure Container Instance 
+    - name: Find and Replace REGISTRY_LOGIN_SERVER
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "__REGISTRY_LOGIN_SERVER__"
+        replace: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        include: "deploy-aci.yml"
+
+    - name: Find and Replace GITHUB_SHA
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "__GITHUB_SHA__"
+        replace: ${{ github.sha }}
+        include: "deploy-aci.yml"
+
+    - name: Find and Replace BASE64_SSL_CRT
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "__BASE64_SSL_CRT__"
+        replace: ${{ secrets.BASE64_SSL_CRT }}
+        include: "deploy-aci.yml"
+
+    - name: Find and Replace BASE64_SSL_KEY
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "__BASE64_SSL_KEY__"
+        replace: ${{ secrets.BASE64_SSL_KEY }}
+        include: "deploy-aci.yml"
+
+    - name: Find and Replace BASE64_NGINX_CONF
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "__BASE64_NGINX_CONF__"
+        replace: ${{ secrets.BASE64_NGINX_CONF }}
+        include: "deploy-aci.yml"
+
+    - name: Find and Replace ENV_FORWARDURL
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "__ENV_FORWARDURL__"
+        replace: ${{ secrets.ENV_FORWARDURL }}
+        include: "deploy-aci.yml"
+
+    - name: Deploy Azure Container Instance 
       uses: azure/CLI@v1
       with:
         inlineScript: |
@@ -65,18 +107,20 @@ jobs:
           else
             echo "no existing aci"
           fi
+          az container create --resource-group ${{ secrets.RESOURCE_GROUP }} --file deploy-aci.yaml
 
-    - name: 'Deploy to Azure Container Instances'
-      uses: 'azure/aci-deploy@v1'
-      with:
-        resource-group: ${{ secrets.RESOURCE_GROUP }}
-        dns-name-label: pliuwhisper
-        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/pliuwhisper:${{ github.sha }}
-        registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-        registry-username: ${{ secrets.REGISTRY_USERNAME }}
-        registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        name: pliuwhisper
-        ports: 5000
-        environment-variables: ENV_MYSELF=paige
-        secure-environment-variables: ENV_FORWARDURL=${{ secrets.ENV_FORWARDURL }}
-        location: "southcentralus"
+
+    # - name: 'Deploy to Azure Container Instances'
+    #   uses: 'azure/aci-deploy@v1'
+    #   with:
+    #     resource-group: ${{ secrets.RESOURCE_GROUP }}
+    #     dns-name-label: pliuwhisper
+    #     image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/pliuwhisper:${{ github.sha }}
+    #     registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+    #     registry-username: ${{ secrets.REGISTRY_USERNAME }}
+    #     registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+    #     name: pliuwhisper
+    #     ports: 5000
+    #     environment-variables: ENV_MYSELF=paige
+    #     secure-environment-variables: ENV_FORWARDURL=${{ secrets.ENV_FORWARDURL }}
+    #     location: "southcentralus"

@@ -1,0 +1,47 @@
+api-version: 2019-12-01
+location: southcentralus
+name: whisper-with-ssl
+properties:
+  containers:
+  - name: nginx-with-ssl
+    properties:
+      image: nginx
+      ports:
+      - port: 443
+        protocol: TCP
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+      volumeMounts:
+      - name: nginx-config
+        mountPath: /etc/nginx
+  - name: pliuwhisper
+    properties:
+      environmentVariables:
+        - name: 'ENV_MYSELF'
+          value: 'paige'
+        - name: 'ENV_FORWARDURL'
+          secureValue: '__ENV_FORWARDURL__'
+      image: __REGISTRY_LOGIN_SERVER__/pliuwhisper:__GITHUB_SHA__
+      ports:
+      - port: 5000
+        protocol: TCP
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+  volumes:
+  - secret:
+      ssl.crt: __BASE64_SSL_CRT__
+      ssl.key: __BASE64_SSL_KEY__
+      nginx.conf: __BASE64_NGINX_CONF__
+    name: nginx-config
+  ipAddress:
+    ports:
+    - port: 443
+      protocol: TCP
+    type: Public
+  osType: Linux
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
