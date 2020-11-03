@@ -58,6 +58,9 @@ jobs:
           if [ $? -eq 0 ]; then
             echo "delete existing aci"
             az container delete -y --name pliuwhisper --resource-group ${{ secrets.RESOURCE_GROUP }}
+          else
+            echo "no existing aci"
+          fi
 
     - name: 'Deploy to Azure Container Instances'
       uses: 'azure/aci-deploy@v1'
