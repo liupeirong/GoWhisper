@@ -100,13 +100,13 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az container show --name pliuwhisper --resource-group ${{ secrets.RESOURCE_GROUP }}
-          if [ $? -eq 0 ]; then
-            echo "delete existing aci"
-            az container delete -y --name pliuwhisper --resource-group ${{ secrets.RESOURCE_GROUP }}
-          else
-            echo "no existing aci"
-          fi
+          # az container show --name pliuwhisper --resource-group ${{ secrets.RESOURCE_GROUP }}
+          # if [ $? -eq 0 ]; then
+          #   echo "delete existing aci"
+          #   az container delete -y --name pliuwhisper --resource-group ${{ secrets.RESOURCE_GROUP }}
+          # else
+          #   echo "no existing aci"
+          # fi
           az container create --resource-group ${{ secrets.RESOURCE_GROUP }} --file deploy-aci.yml
 
 
