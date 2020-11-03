@@ -50,7 +50,7 @@ jobs:
         docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/pliuwhisper:${{ github.sha }}
         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/pliuwhisper:${{ github.sha }}
 
-    - name: Azure CLI script
+    - name: Delete existing Azure Container Instance 
       uses: azure/CLI@v1
       with:
         inlineScript: |
