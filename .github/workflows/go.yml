@@ -73,5 +73,6 @@ jobs:
         registry-password: ${{ secrets.REGISTRY_PASSWORD }}
         name: pliuwhisper
         ports: 5000
+        environment-variables: ENV_MYSELF=paige
+        secure-environment-variables: ENV_FORWARDURL=${{ secrets.ENV_FORWARDURL }}
         location: "southcentralus"
-        environment-variables: 'MYSELF'=${{ secrets.ENV_MYSELF }} 'FORWARDURL'=${{ secrets.ENV_FORWARDURL }}
